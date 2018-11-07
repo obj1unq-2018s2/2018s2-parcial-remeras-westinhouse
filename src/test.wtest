@@ -1,0 +1,86 @@
+import Remeras.*
+import Pedidos.*
+import Comercio_Y_Sucursales.*
+
+describe "Tests de remeras"{
+	
+	// REMERAS
+	
+	var remeraBlanca = new Remera( color = "Blanco", talle = 38)
+	
+	var remeraBordada = new Remera_Bordada( color = "Negro", 
+											talle = 42, 
+											bordado = ["Rojo", "Negro", "Amarillo"]
+										   )
+	
+	var remeraPinkFloyd = new Remera_Sublimada( color = "Azul",
+												talle = 40,
+												anchoSublimado = 20,
+												altoSublimado = 20,
+												adicionalPorCopyright = 80,
+												comercioTieneConvenio = true
+											  )
+   // SUCURSAL
+   
+   var sucursalQuilmes = new Sucursal ( pedidos = [],
+   										cantidadMinimaParaAplicarDescuento = 20
+   									   )
+   
+   var sucursalLaPlata = new Sucursal ( pedidos = [],
+   										cantidadMinimaParaAplicarDescuento = 10
+   									   )
+   // COMERCIO
+   
+   var estaka = new Comercio ( sucursales = [sucursalQuilmes, sucursalLaPlata],
+   							   pedidos = []
+   )
+   
+   										  
+   // PEDIDOS
+   
+   var diezRemerasBlancas = new Pedido ( cantidad = 10, 
+   										 tipoRemera = remeraBlanca, 
+   										 sucursal = sucursalQuilmes
+   )
+   var cincoRemerasBordadas = new Pedido ( cantidad = 5, 
+   										   tipoRemera = remeraBordada, 
+   										   sucursal = sucursalLaPlata
+   )
+   var veinteRemerasPinkFloyd = new Pedido ( cantidad = 20, 
+   											 tipoRemera = remeraPinkFloyd, 
+   											 sucursal = sucursalQuilmes
+   )
+   
+   // TESTS
+   
+   // Evaluo las consignas de la Parte C porque no me queda más tiempo.
+   
+   test "punto 1. Registrar un pedido en comercio"{
+   		
+   		estaka.registrarPedido(diezRemerasBlancas)
+   		assert.that(estaka.pedidos().contains(diezRemerasBlancas))
+   }
+   
+   test "punto 2. Conocer el total facturado por el comercio"{
+   		
+   		sucursalQuilmes.agregarPedido(diezRemerasBlancas)
+   		sucursalLaPlata.agregarPedido(cincoRemerasBordadas)
+   		sucursalQuilmes.agregarPedido(veinteRemerasPinkFloyd)
+   		assert.equals(estaka.totalFacturado(), 2922)
+   }
+   
+   test "punto 3. Conocer el total facturado en la sucursal de Quilmes"{
+   		sucursalQuilmes.agregarPedido(diezRemerasBlancas)
+   		sucursalLaPlata.agregarPedido(cincoRemerasBordadas)
+   		assert.equals(estaka.totalFacturadoEnSucursal(sucursalQuilmes), 800)
+   }
+   
+// Me quede sin tiempo. De otro modo terminaba todos los tests sin problemas. Me quedo sin hacer la parte de Bonus.
+
+
+
+
+
+
+
+
